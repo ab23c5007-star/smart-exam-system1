@@ -1,0 +1,62 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic Search</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <h1>Semantic Search</h1>
+        <h2>Course Material: {{ material.title }}</h2>
+
+        <div class="material-card">
+            <h3>Search Inside Your Lecture</h3>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <label for="question">Enter your question:</label>
+
+                <input
+                    type="text"
+                    id="question"
+                    name="question"
+                    placeholder="Example: What is BSBI?"
+                    value="{{ question }}"
+                    required
+                    style="width: 90%; padding: 12px; margin: 15px 0;"
+                >
+
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        {% if question %}
+            <h3>Search Results</h3>
+
+            {% for result in results %}
+                <div class="material-card">
+                    <h4>Relevant Chunk {{ forloop.counter }}</h4>
+                    <p style="white-space: pre-wrap;">{{ result }}</p>
+                </div>
+            {% empty %}
+                <p>No relevant chunks found.</p>
+            {% endfor %}
+        {% endif %}
+
+        <p>
+            <a href="{% url 'teacher_dashboard' %}">
+                Back to Teacher Dashboard
+            </a>
+        </p>
+
+    </div>
+
+</body>
+</html>

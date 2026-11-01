@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Process Material</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <h1>Processed Course Material</h1>
+
+        <h2>{{ material.title }}</h2>
+
+        <hr>
+
+        <!-- ChromaDB Storage -->
+        <div class="material-card">
+            <h3>ChromaDB Storage</h3>
+
+            <p>Saved Chunks: {{ saved_count }}</p>
+
+            {% if saved_count > 0 %}
+                <p style="color: green;">
+                    Embeddings stored successfully!
+                </p>
+            {% else %}
+                <p>No chunks were saved.</p>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- Extracted PDF Text -->
+        <h3>Extracted Text:</h3>
+
+        <div class="material-card">
+            <pre style="white-space: pre-wrap;">{{ extracted_text }}</pre>
+        </div>
+
+        <hr>
+
+        <!-- Text Chunks -->
+        <h3>Text Chunks:</h3>
+
+        {% for chunk in chunks %}
+
+            <div class="material-card">
+
+                <h4>Chunk {{ forloop.counter }}</h4>
+
+                <p>{{ chunk }}</p>
+
+            </div>
+
+        {% empty %}
+
+            <p>No text chunks available.</p>
+
+        {% endfor %}
+
+        <hr>
+
+        <a href="{% url 'teacher_dashboard' %}">
+            <button>Back to Dashboard</button>
+        </a>
+
+    </div>
+
+</body>
+
+</html>

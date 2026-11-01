@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Teacher Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <h1>Teacher Dashboard</h1>
+
+        <h2>Welcome {{ request.user.username }}</h2>
+
+        <a href="{% url 'upload_material' %}">
+            <button>Upload Course Material</button>
+        </a>
+
+        <hr>
+
+        <h2>My Course Materials</h2>
+
+        {% if materials %}
+
+            {% for material in materials %}
+
+                <div class="material-card">
+
+                    <h3>{{ material.title }}</h3>
+
+                    <p>
+                        File:
+                        {{ material.file.name }}
+                    </p>
+
+                    <p>
+                        Uploaded:
+                        {{ material.uploaded_at }}
+                    </p>
+                    
+                    <a href="{% url 'process_material' material.id %}">
+                    <button>Process PDF</button>
+                    </a>
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No course materials uploaded yet.</p>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
